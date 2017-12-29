@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% block title %}
+    数据分析
+{% endblock %}
+{% block head %}
+
+{% endblock %}
+
+{% block main %}
+    <div id="container" style="width: 900px; height: 500px; margin: 0 auto"></div>
+    <script language="JavaScript">
+        $(document).ready(function() {
+           area = getQueryString('area');
+           var one = 0;
+           var two = 0;
+           var three = 0;
+           var four = 0;
+           var five = 0;
+           var six = 0;
+           var seven = 0;
+           var eight = 0;
+           var nine = 0;
+
+           {#alert(area)#}
+           $.ajax({
+               url : '/pudong',
+               type:'POST',
+               data: {'area':area},
+               dataType:'JSON',
+               success:function (data) {
+                   {#alert(JSON.stringify(data))#}
+                   if(data['1室']) {
+                       one = data['1室'];
+                   }
+                    if(data['2室']) {
+                       two = data['2室'];
+                   }
+                    if(data['3室']) {
+                       three = data['3室'];
+                   }
+                    if(data['4室']) {
+                       four = data['4室'];
+                   }
+                    if(data['5室']) {
+                       five = data['5室'];
+                   }
+                    if(data['6室']) {
+                       six = data['6室'];
+                   }
+                    if(data['7室']) {
+                       seven = data['7室'];
+                   }
+                    if(data['8室']) {
+                       eight = data['8室'];
+                   }
+                    if(data['9室']) {
+                       nine = data['9室'];
+                   }
+                   var title = {
+                       text: '各区不同房型价格'
+                   };
+                   var subtitle = {
+                        text: '信息来源：房天下'
+                   };
+                   var xAxis = {
+                       categories: ['一居室','二居室','三居室','四居室','五居室','六居室','七居室','八居室','九居室']
+                   };
+                   var yAxis = {
+                      title: {
+                         text: '价格'
+                      },
+                      plotLines: [{
+                         value: 0,
+                         width: 1,
+                         color: '#808080'
+                      }]
+                   };
+
+                   var tooltip = {
+                      valueSuffix: '元'
+                   }
+
+                   var legend = {
+                      layout: 'vertical',
+                      align: 'right',
+                      verticalAlign: 'middle',
+                      borderWidth: 0
+                   };
+
+                   var series =  [
+                      {
+                         name: '均价',
+                         data: [one,two,three,four,five,six,seven,eight,nine]
+                      }
+                   ];
+
+                   var json = {};
+
+                   json.title = title;
+                   json.subtitle = subtitle;
+                   json.xAxis = xAxis;
+                   json.yAxis = yAxis;
+                   json.tooltip = tooltip;
+                   json.legend = legend;
+                   json.series = series;
+
+                   $('#container').highcharts(json);
+               }
+           })
+        });
+
+
+
+        function getQueryString(name) {
+              var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+              var r = window.location.search.substr(1).match(reg);
+              if (r != null) return decodeURI(r[2]); return null;
+        }
+    </script>
+
+{% endblock %}
+

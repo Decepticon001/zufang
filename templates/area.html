@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block title %}
+    数据分析
+{% endblock %}
+{% block head %}
+
+{% endblock %}
+
+{% block main %}
+    <div id="container" style="width: 900px; height: 500px; margin: 0 auto"></div>
+    <script language="JavaScript">
+        $(document).ready(function() {
+
+           $.ajax({
+               url : '/data_analysis',
+               type:'POST',
+               dataType:'JSON',
+               success:function (data) {
+                   {#alert(JSON.stringify(data))#}
+                   var title = {
+                       text: '2017上海租房月发布条数'
+                   };
+                   var subtitle = {
+                        text: '信息来源：房天下'
+                   };
+                   var xAxis = {
+                       categories: ['一月', '二月', '三月', '四月', '五月', '六月'
+                              ,'七月', '八月', '九月', '十月', '十一月', '十二月']
+                   };
+                   var yAxis = {
+                      title: {
+                         text: '信息条数数'
+                      },
+                      plotLines: [{
+                         value: 0,
+                         width: 1,
+                         color: '#808080'
+                      }]
+                   };
+
+                   var tooltip = {
+                      valueSuffix: '条'
+                   }
+
+                   var legend = {
+                      layout: 'vertical',
+                      align: 'right',
+                      verticalAlign: 'middle',
+                      borderWidth: 0
+                   };
+
+                   var series =  [
+                      {
+                         name: '发布信息条数',
+                         data: [1245, 4334, 4354, 1265, 2256, 4356, 546,
+                            456, 3434, 1323, 1213, data['2017-12']]
+                      }
+                   ];
+
+                   var json = {};
+
+                   json.title = title;
+                   json.subtitle = subtitle;
+                   json.xAxis = xAxis;
+                   json.yAxis = yAxis;
+                   json.tooltip = tooltip;
+                   json.legend = legend;
+                   json.series = series;
+
+                   $('#container').highcharts(json);
+               }
+           })
+        });
+
+    </script>
+
+{% endblock %}

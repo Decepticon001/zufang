@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block title %}
+    数据分析
+{% endblock %}
+{% block head %}
+
+{% endblock %}
+
+{% block main %}
+    <div id="container" style="width: 900px; height: 500px; margin: 0 auto"></div>
+    <script language="JavaScript">
+        $(document).ready(function() {
+           $.ajax({
+               url : '/data_analysis1',
+               type:'POST',
+               dataType:'JSON',
+               success:function (data) {
+                   {#alert(JSON.stringify(data));#}
+                   {#alert(data["上海周边"]);#}
+                   var title = {
+                       text: '2017上海各区平均房租'
+                   };
+                   var subtitle = {
+                        text: '信息来源：房天下'
+                   };
+                   var xAxis = {
+                       categories: ['上海周边', '卢湾', '嘉定', '奉贤', '宝山', '崇明'
+                              ,'徐汇', '普陀', '杨浦', '松江', '浦东', '虹口','金山','长宁','闵行','闸北',
+                                '青浦','静安','黄浦']
+                   };
+                   var yAxis = {
+                      title: {
+                         text: '均价'
+                      },
+                      plotLines: [{
+                         value: 0,
+                         width: 1,
+                         color: '#808080'
+                      }]
+                   };
+
+                   var tooltip = {
+                      valueSuffix: '元'
+                   }
+
+                   var legend = {
+                      layout: 'vertical',
+                      align: 'right',
+                      verticalAlign: 'middle',
+                      borderWidth: 0
+                   };
+
+                   var series =  [
+                      {
+                         name: '价格',
+                         data: [data['上海周边'], data['卢湾'], data['嘉定'], data['奉贤'], data['宝山'], data['崇明']
+                              ,data['徐汇'], data['普陀'], data['杨浦'], data['松江'], data['浦东'], data['虹口'],data['金山'],data['长宁'],data['闵行'],data['闸北'],
+                                data['青浦'],data['静安'],data['黄浦'] ]
+                      }
+                   ];
+
+                   var json = {};
+
+                   json.title = title;
+                   json.subtitle = subtitle;
+                   json.xAxis = xAxis;
+                   json.yAxis = yAxis;
+                   json.tooltip = tooltip;
+                   json.legend = legend;
+                   json.series = series;
+
+                   $('#container').highcharts(json);
+               }
+           })
+        });
+    </script>
+
+{% endblock %}
+

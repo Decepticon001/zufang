@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% block title %}
+    数据分析
+{% endblock %}
+{% block head %}
+
+{% endblock %}
+
+{% block main %}
+    <div id="container" style="width: 900px; height: 500px; margin: 0 auto"></div>
+    <script language="JavaScript">
+        $(document).ready(function() {
+
+           $.ajax({
+               url : '/data_analysis',
+               type:'POST',
+               dataType:'JSON',
+               success:function (data) {
+                   alert(JSON.stringify(data))
+                   var title = {
+                       text: '2017上海租房月发布条数'
+                   };
+                   var subtitle = {
+                        text: '信息来源：房天下'
+                   };
+                   var xAxis = {
+                       categories: ['1号','2号','3号','4号','5号','6号','7号','8号','9号','10号','11号','12号','13号','14号',
+                       '15号','16号','17号','18号','19号','20号','21号','22号','23号','4号','25号','26号','27号','28号','29号']
+                   };
+                   var yAxis = {
+                      title: {
+                         text: '信息条数数'
+                      },
+                      plotLines: [{
+                         value: 0,
+                         width: 1,
+                         color: '#808080'
+                      }]
+                   };
+
+                   var tooltip = {
+                      valueSuffix: '条'
+                   }
+
+                   var legend = {
+                      layout: 'vertical',
+                      align: 'right',
+                      verticalAlign: 'middle',
+                      borderWidth: 0
+                   };
+
+                   var series =  [
+                      {
+                         name: '发布信息条数',
+                         data: [data['2017-12-01'],data['2017-12-02'],data['2017-12-03'],data['2017-12-04'],data['2017-12-05'],data['2017-12-06'],data['2017-12-07'],
+                         data['2017-12-08'],data['2017-12-09'],data['2017-12-10'],data['2017-12-11'],data['2017-12-12'],data['2017-12-13'],data['2017-12-14'],
+                         data['2017-12-15'],data['2017-12-16'],data['2017-12-17'],data['2017-12-18'],data['2017-12-19'],data['2017-12-20'],
+                         data['2017-12-21'],data['2017-12-22'],data['2017-12-23'],data['2017-12-24'],data['2017-12-25'],data['2017-12-26'],
+                         data['2017-12-27'],data['2017-12-28'],data['2017-12-29']]
+                      }
+                   ];
+
+                   var json = {};
+
+                   json.title = title;
+                   json.subtitle = subtitle;
+                   json.xAxis = xAxis;
+                   json.yAxis = yAxis;
+                   json.tooltip = tooltip;
+                   json.legend = legend;
+                   json.series = series;
+
+                   $('#container').highcharts(json);
+               }
+           })
+        });
+
+    </script>
+
+{% endblock %}
+
